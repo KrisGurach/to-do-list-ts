@@ -17,7 +17,7 @@ const tasksSlice = createSlice({
       state.value = action.payload;
     },
     addTask(state, action: PayloadAction<Task>) {
-      state.value.push(action.payload);
+      state.value.unshift(action.payload);
     },
     toggleTask(state, action: PayloadAction<number>) {
       const task = state.value.find((task) => task.id === action.payload);

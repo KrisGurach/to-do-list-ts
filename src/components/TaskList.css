@@ -1,0 +1,87 @@
+.taskList {
+    list-style-type: none;
+    padding: 0;
+}
+
+.taskItem {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: #888;
+}
+
+.toggleButton {
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: 2px solid #888;
+    font-size: 16px;
+}
+
+.toggleButton.completed {
+    background-color: #888;
+    color: white;
+}
+
+.checkmark {
+    font-size: 20px;
+    color: #4caf50;
+}
+
+.deleteButton {
+    margin-left: auto;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f44336;
+    color: white;
+    cursor: pointer;
+  }
+
+.deleteButton:hover {
+    background-color: #d32f2f;
+}
+
+.filterButtons {
+    margin-bottom: 10px;
+  }
+  
+  .filterButtons button {
+    margin-right: 5px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .filterButtons button.active {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .clearButton {
+    margin-top: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f44336;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .clearButton:hover {
+    background-color: #d32f2f;
+  }
+  

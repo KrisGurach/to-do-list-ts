@@ -1,68 +1,78 @@
 "use client";
-import { addTask } from "@/store/tasksSlice";
-import React, { useState } from "react";
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-// import Link from 'next/link';
-import { fetchTasks } from '@/utils/api';
-import { setTasks } from '@/store/tasksSlice';
+import { addTask, setTasks } from "@/store/tasksSlice";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import TaskList from '@/components/TaskList';
+import { fetchTasks } from '@/utils/api';
+import { Task } from "@/interfaces/Task";
+import styles from "../app/page.module.css";
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();
+  const [task, setTask] = useState("");
 
   useEffect(() => {
     const loadTasks = async () => {
       const fetchedTasks = await fetchTasks();
-      dispatch(setTasks(fetchedTasks));
+
+      const savedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+
+      const uniqueTasks: Task[] = [
+        ...fetchedTasks,
+        ...savedTasks.filter((savedTask: Task) => 
+          !fetchedTasks.some(fetchedTask => fetchedTask.id === savedTask.id)
+        )
+      ];
+
+      dispatch(setTasks(uniqueTasks));
     };
 
     loadTasks();
   }, [dispatch]);
 
-  
-  const [task, setTask] = useState("");
-  
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTask(e.target.value);
   };
-  
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     if (task.trim() === "") {
       return;
     }
-    
+
     const newTask = {
       id: Math.floor(Math.random() * 1000000),
       title: task,
       completed: false,
     };
-    
+
     dispatch(addTask(newTask));
-    
+
     const currentTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-    currentTasks.unshift(newTask);      
-    localStorage.setItem('tasks', JSON.stringify(currentTasks)); 
-    
+    currentTasks.unshift(newTask);
+    localStorage.setItem('tasks', JSON.stringify(currentTasks));
+
     setTask("");
   };
 
   return (
-    <div>
-      <h1>Список задач</h1>
-      <h2>Добавить новую задачу</h2>
-      <form onSubmit={handleSubmit}>
+    <div className={styles.container}>
+      <h1 className={styles.heading}>Список задач</h1>
+      <h2 className={styles.heading}>Добавить новую задачу</h2>
+      <form onSubmit={handleSubmit} className={styles.form}>
         <input
           type="text"
           value={task}
           onChange={handleInputChange}
           placeholder="Введите задачу"
+          className={styles.input}
         />
-        <button type="submit">Добавить задачу</button>
+        <button type="submit" className={styles.button}>Добавить задачу</button>
       </form>
-      <TaskList />
+      <ul className={styles.taskList}>
+        <TaskList />
+      </ul>
     </div>
   );
 };

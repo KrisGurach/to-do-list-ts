@@ -1,3 +1,7 @@
+.list {
+    font-family: 'Roboto', sans-serif;
+}
+
 .taskList {
     list-style-type: none;
     padding: 0;

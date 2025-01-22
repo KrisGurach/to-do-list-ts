@@ -15,12 +15,13 @@ const Home: React.FC = () => {
     const loadTasks = async () => {
       const fetchedTasks = await fetchTasks();
 
-      const savedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+      const stored = localStorage.getItem('tasks');
+      const savedTasks = stored ? (JSON.parse(stored)).value : [];
 
       const uniqueTasks: Task[] = [
-        ...fetchedTasks,
-        ...savedTasks.filter((savedTask: Task) => 
-          !fetchedTasks.some(fetchedTask => fetchedTask.id === savedTask.id)
+        ...savedTasks,
+        ...fetchedTasks.filter((fetchedTask: Task) => 
+          !savedTasks.some((savedTask: Task) => fetchedTask.id === savedTask.id)
         )
       ];
 
@@ -48,10 +49,6 @@ const Home: React.FC = () => {
     };
 
     dispatch(addTask(newTask));
-
-    const currentTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-    currentTasks.unshift(newTask);
-    localStorage.setItem('tasks', JSON.stringify(currentTasks));
 
     setTask("");
   };

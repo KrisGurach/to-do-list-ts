@@ -8,11 +8,10 @@ import './TaskList.css';
 
 const TaskList: React.FC = ({}) => {
   const dispatch = useDispatch();
-  const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all'); // Устанавливаем начальный фильтр
+  const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
 
   const tasks = useSelector((state: { tasks: { value: Task[] } }) => state.tasks.value);
 
-  // Фильтруем задачи в зависимости от выбранного фильтра
   const filteredTasks = tasks.filter(task => {
     if (filter === 'active') {
       return !task.completed;
@@ -20,11 +19,11 @@ const TaskList: React.FC = ({}) => {
     if (filter === 'completed') {
       return task.completed;
     }
-    return true; // 'all'
+    return true;
   });
 
   return (
-    <div>
+    <div className="list">
       <div className="filterButtons">
         <button onClick={() => setFilter('all')} className={filter === 'all' ? 'active' : ''}>Все</button>
         <button onClick={() => setFilter('active')} className={filter === 'active' ? 'active' : ''}>Активные</button>
